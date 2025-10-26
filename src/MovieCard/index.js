@@ -1,48 +1,99 @@
-import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardActions from '@mui/material/CardActions';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
-import IconButton from '@mui/material/IconButton';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import HowToRegIcon from '@mui/icons-material/HowToReg';
+import * as React from "react";
+import {
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Typography,
+  IconButton,
+  Grid,
+  Box,
+  Tooltip,
+} from "@mui/material";
+import ExplicitIcon from '@mui/icons-material/Explicit';
+import HowToRegIcon from "@mui/icons-material/HowToReg";
 
-export default function MovieCard({movie}) {
-    
-  const { id, original_title, poster_path, release_date,vote_count} = movie;
-
-    console.log("movie");
-
+export default function MovieCard({ movie }) {
+  const { original_title, poster_path, release_date, vote_count, popularity, adult } =
+    movie;
 
   return (
-     <Box sx={{ flexGrow:2, p: 2, width:200 }}>
-    <Grid size={35} >
-    <Card sx={{ maxWidth: 260 }}>
-      <CardMedia
-        sx={{ height: 300}}
-        image={poster_path}
-        title="green iguana"
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {original_title}
-        </Typography>
-        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-       Release Date: {release_date}
-        </Typography>
-      </CardContent>
-      <CardActions>
-       <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
-        </IconButton>
-        <HowToRegIcon></HowToRegIcon><Typography size="small"> {vote_count}</Typography>
-      </CardActions>
-    </Card>
+    <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Card
+        sx={{
+          maxWidth: 280,
+          borderRadius: 3,
+          boxShadow: 4,
+          transition: "transform 0.3s ease, box-shadow 0.3s ease",
+          "&:hover": {
+            transform: "scale(1.05)",
+            boxShadow: 8,
+          },
+        }}
+      >
+        <Box sx={{ position: "relative" }}>
+          <CardMedia
+            component="img"
+            height="350"
+            image={poster_path}
+            alt={original_title}
+            sx={{
+              objectFit: "cover",
+              borderTopLeftRadius: 12,
+              borderTopRightRadius: 12,
+            }}
+          />
+          {/* Gradient overlay */}
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: 0,
+              width: "100%",
+              background:
+                "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
+              color: "white",
+              p: 1.5,
+            }}
+          >
+            <Typography variant="subtitle1" fontWeight={600} noWrap>
+              {original_title}
+            </Typography>
+          </Box>
+        </Box>
+
+        <CardContent sx={{ textAlign: "left", p: 2 }}>
+          <Typography variant="body2" color="text.secondary">
+            📅 <strong>Release:</strong> {release_date || "N/A"}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            🌟 <strong>Popularity:</strong> {popularity?.toFixed(1)}
+          </Typography>
+        </CardContent>
+
+        <CardActions
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            px: 2,
+            pb: 2,
+          }}
+        >
+  
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            <ExplicitIcon color="primary" fontSize="small" />
+            <Typography variant="body2" fontWeight={500}>
+              {adult}
+            </Typography>
+          </Box>
+
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.5 }}>
+            <HowToRegIcon color="primary" fontSize="small" />
+            <Typography variant="body2" fontWeight={500}>
+              {vote_count}
+            </Typography>
+          </Box>
+        </CardActions>
+      </Card>
     </Grid>
-    </Box>
   );
 }
