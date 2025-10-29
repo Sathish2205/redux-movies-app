@@ -4,14 +4,12 @@ import {
   TextField,
   Typography,
   Button,
-  Paper,
   Link as MuiLink,
 } from "@mui/material";
 import { Link, Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setEmail, setName, setPass1, setPass2 } from "../slice/movieSlice";
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { createUserWithEmailAndPassword, getAuth } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
