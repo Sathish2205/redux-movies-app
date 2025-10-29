@@ -47,6 +47,7 @@ export default function SelectorComponent() {
   const list = (anchor) => (
     <Box
       sx={{
+        mt:8,
         width: 250,
         backgroundColor: "#1c1c1c",
         color: "white",
