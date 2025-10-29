@@ -7,11 +7,13 @@ import {
   Typography,
   Grid,
   Box,
+  Tooltip,
 } from "@mui/material";
 import ExplicitIcon from '@mui/icons-material/Explicit';
 import HowToRegIcon from "@mui/icons-material/HowToReg";
+import FavoriteIcon from '@mui/icons-material/Favorite';
 
-export default function MovieCard({ movie }) {
+export default function FavMovieCard({ movie }) {
   const { original_title, poster_path, release_date, vote_count, popularity, adult } =
     movie;
 

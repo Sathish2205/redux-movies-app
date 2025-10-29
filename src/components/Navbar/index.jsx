@@ -9,10 +9,13 @@ import {
   InputBase,
   Tooltip,
 } from "@mui/material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import SearchIcon from "@mui/icons-material/Search";
 import SelectorComponent from "../selectorComponent";
+import ProfileMenu from "../profile";
 import { useDispatch, useSelector } from "react-redux";
 import { setSearchMovie } from "../../slice/movieSlice";
+import { useNavigate } from "react-router-dom";
 
 // 🔍 Styled search bar
 const Search = styled("div")(({ theme }) => ({
@@ -22,7 +25,7 @@ const Search = styled("div")(({ theme }) => ({
   "&:hover": {
     backgroundColor: alpha("#ffffff", 0.25),
   },
-  marginLeft: theme.spacing(3),
+  marginLeft: theme.spacing(2),
   width: "100%",
   [theme.breakpoints.up("sm")]: {
     width: "auto",
@@ -47,7 +50,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     transition: theme.transitions.create("width"),
     width: "100%",
     [theme.breakpoints.up("sm")]: {
-      width: "22ch",
+      width: "20ch",
       "&:focus": {
         width: "28ch",
       },
@@ -56,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 }));
 
 export default function Navbar() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { searchMovie } = useSelector((state) => state.movies);
 
@@ -63,62 +67,91 @@ export default function Navbar() {
     dispatch(setSearchMovie(e.target.value));
   };
 
+  const onFavClick = () => {
+    navigate("/favorites");
+  };
+
   return (
-    <Box sx={{ flexGrow: 1, position:"fixed", zIndex:"3", width:"100%"}}>
+    <>
+      {/* Navbar */}
       <AppBar
-        position="sticky"
+        position="fixed"
         sx={{
           background: "linear-gradient(90deg, #0d0d0d, #1a1a1a)",
           boxShadow: "0 2px 10px rgba(0,0,0,0.4)",
+          zIndex: (theme) => theme.zIndex.drawer + 1, // Ensures navbar is above all
         }}
       >
-        <Toolbar>
-          {/* Logo / Title */}
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          {/* Left Section - Logo */}
           <Typography
             variant="h6"
             noWrap
             component="div"
             sx={{
-              display: { xs: "none", sm: "block" },
               fontWeight: 700,
               letterSpacing: 0.5,
               color: "#e50914",
+              flexShrink: 0,
+              fontSize: { xs: "1rem", sm: "1.25rem" },
             }}
           >
             🎬 MoviesApp
           </Typography>
 
-          {/* Search Input */}
-          <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search movies..."
-              inputProps={{ "aria-label": "search" }}
-              value={searchMovie}
-              onChange={onSearchChange}
-            />
-          </Search>
-
-          {/* Filler space */}
-          <Box sx={{ flexGrow: 1 }} />
-
-          {/* Right Section (icons + selector) */}
-          <Box sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}>
-            <SelectorComponent />
-           
-            
+          {/* Middle Section - Search */}
+          <Box sx={{ flexGrow: 1, mx: { xs: 1, sm: 3 } }}>
+            <Search>
+              <SearchIconWrapper>
+                <SearchIcon />
+              </SearchIconWrapper>
+              <StyledInputBase
+                placeholder="Search movies..."
+                inputProps={{ "aria-label": "search" }}
+                value={searchMovie}
+                onChange={onSearchChange}
+              />
+            </Search>
           </Box>
 
-          {/* Mobile Menu Button */}
-          <Box sx={{ display: { xs: "flex", md: "none" } }}>
-            <IconButton color="inherit">
-              <SelectorComponent/>
-            </IconButton>
+          {/* Right Section - Desktop Icons */}
+          <Box
+            sx={{
+              display: { xs: "none", md: "flex" },
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <Tooltip title="Favorites">
+              <IconButton onClick={onFavClick} color="inherit">
+                <FavoriteIcon />
+              </IconButton>
+            </Tooltip>
+            <SelectorComponent />
+            <ProfileMenu />
+          </Box>
+
+          {/* Right Section - Mobile Icons */}
+          <Box
+            sx={{
+              display: { xs: "flex", md: "none" },
+              alignItems: "center",
+              gap: 1,
+            }}
+          >
+            <Tooltip title="Favorites">
+              <IconButton onClick={onFavClick} color="inherit">
+                <FavoriteIcon />
+              </IconButton>
+            </Tooltip>
+            <SelectorComponent />
+            <ProfileMenu />
           </Box>
         </Toolbar>
       </AppBar>
-    </Box>
+
+      {/* Spacer to prevent content from hiding under fixed navbar */}
+      <Box sx={{ height: { xs: "56px", sm: "64px" } }} />
+    </>
   );
 }

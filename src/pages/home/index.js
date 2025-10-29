@@ -8,12 +8,30 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import CircularProgress from "@mui/material/CircularProgress";
 import { getMoviesSearch } from "../../util/getMovieSearch";
+import { useNavigate } from "react-router-dom";
+import Footer from "../../components/footer/footer";
 
 const Home = () => {
+const navigate=useNavigate();
+
   const dispatch = useDispatch();
   const { movies, searchMovie } = useSelector((state) => state.movies);
 
   const filteredMovies = getMoviesSearch(movies, searchMovie);
+  // console.log(filteredMovies)
+
+const onCardClick = (id) => {
+
+  navigate(`/moviedetails/${id}`)
+  // console.log("Card Clicked", id);
+  // const openMovies = filteredMovies.filter(movie => movie.id === id);
+  // navigate("/moviedetails")
+  // console.log(openMovies);
+  // return(
+  //   <MovieDetailCard data={openMovies}/>
+  // )
+
+};
 
   useEffect(() => {
     dispatch(getMovies());
@@ -23,12 +41,15 @@ const Home = () => {
     <>
       {/* Navbar */}
       <Navbar />
-
+      
+      <Typography sx={{textAlign:"center", mt:3, fontFamily:"cursive"}}>
+        “Grab your popcorn. Your movie journey starts here.”
+      </Typography>
       {/* Main Container */}
       <Box
         sx={{
           flexGrow: 1,
-          p: { sm: 8,},
+          p: { sm: 2,},
           minHeight: "100vh",
           backgroundColor: "#f9f9f9",
         }}
@@ -56,12 +77,13 @@ const Home = () => {
             No movies found for "<strong>{searchMovie}</strong>"
           </Typography>
         ) : (
-          <Grid container spacing={4} justifyContent="center" marginTop={4}>
-            {filteredMovies.map((movie) => (<Grid item key={movie.id}><MovieCard movie={movie} /></Grid>
+          <Grid  container spacing={4} justifyContent="center" marginTop={4}>
+            {filteredMovies.map((movie) => (<Grid onClick={()=>onCardClick(movie.id)} item key={movie.id}><MovieCard movie={movie} /></Grid>
             ))}
           </Grid>
         )}
       </Box>
+      <Footer/>
     </>
   );
 };
