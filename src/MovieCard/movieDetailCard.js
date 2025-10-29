@@ -150,7 +150,7 @@ export default function MovieDetailCard() {
             }}
             onClick={() => AddToFav(id)}
           >
-            <FavoriteIcon /> Add To Favorite
+            <FavoriteIcon /> Add To Favourite
           </Button>
           <br />
           <Button

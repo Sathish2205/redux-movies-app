@@ -53,7 +53,7 @@ navigate("/")
           mt={2}
           fontSize={35}
         >
-          <strong>Favorite Movies</strong>
+          <strong>Favourite Movies</strong>
         </Typography>
 
         {/* <button>Clear all</button> */}

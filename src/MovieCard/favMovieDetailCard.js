@@ -145,7 +145,7 @@ export default function FavMovieDetailCard() {
             }}
             onClick={() => RemoveFromFav(id)}
           >
-            <FavoriteIcon /> Remove from Favorite
+            <FavoriteIcon /> Remove from Favourite
           </Button>
           <br />
           <Button
